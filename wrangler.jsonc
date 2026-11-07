@@ -1,0 +1,12 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	// The Worker's name. The Cloudflare dashboard must use the same name,
+	// and it becomes the first part of the workers.dev address.
+	"name": "seedfault-site",
+	// The newest date the runtime inside wrangler 4.158.0 knows.
+	"compatibility_date": "2026-11-04",
+	// No Worker code: Cloudflare serves the files Astro builds into dist/.
+	"assets": {
+		"directory": "./dist"
+	}
+}

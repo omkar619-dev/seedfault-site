@@ -1,16 +1,505 @@
 ---
+// Every style on the page lives in one stylesheet, copied from the mock.
+import '../styles/site.css';
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>driftlab · find the writes your system acknowledged, then lost</title>
+  <meta name="description" content="driftlab runs real clients and services through crashes, frozen brokers and network cuts, and checks every acknowledged write." />
+  <meta name="theme-color" content="#0a0f11" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="generator" content={Astro.generator} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="inner">
+    <a class="brand" href="#top" aria-label="driftlab, back to top">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path class="mark-ack" d="M3 8 H21" stroke-width="2" stroke-linecap="round"/>
+        <path class="mark-drift" d="M3 8 H8.5 C13 8 14 16.5 21 16.5" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      driftlab
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#findings">Findings</a>
+      <a href="#method">Method</a>
+      <a href="#ledgers">Ledgers</a>
+    </nav>
+    <a class="btn btn-ghost" href="https://github.com/omkar619-dev/driftlab" target="_blank" rel="noopener" style="height:36px;padding:0 14px;font-size:0.88rem">GitHub ↗</a>
+  </div>
+</header>
+
+<main class="frame" id="top">
+
+  <!-- ===== hero ===== -->
+  <section class="band hero" aria-labelledby="hero-title">
+    <a class="announce" href="#ledgers">
+      <span class="tag">New</span>
+      <span>Blnk fixed all 3 bugs driftlab found, within 4 days</span>
+    </a>
+    <h1 id="hero-title">Find the writes your system acknowledged, <span class="lost">then lost.</span></h1>
+    <p class="lede">driftlab runs real clients and services through crashes, frozen brokers and network cuts. It records every send, acknowledgement and delivery, then checks the record. Anything lost, stored twice or delivered out of order shows up next to the fault that caused it.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="#findings">See the findings</a>
+      <a class="btn btn-ghost" href="https://github.com/omkar619-dev/driftlab" target="_blank" rel="noopener">View on GitHub ↗</a>
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <code id="clone-cmd">git clone https://github.com/omkar619-dev/driftlab</code>
+        <button class="copy" type="button" id="copy-clone" data-copy="clone-cmd" aria-label="Copy the clone command">Copy</button>
+      </div>
+    </div>
+
+    <div class="panel" role="figure" aria-label="Four Kafka clients through five faults">
+      <div class="panel-head">
+        <div class="panel-title">kafka · 4 clients, 7 settings · 5 faults · one 3-broker cluster</div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="k-lost"></i>lost or never stored</span>
+          <span><i class="k-twice"></i>stored twice</span>
+          <span><i class="k-clean"></i>clean</span>
+        </div>
+      </div>
+      <div class="scroll">
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th scope="col">Client and settings</th>
+              <th scope="col">Leader crash, just after the topic is created</th>
+              <th scope="col">Leader crash, during steady writing</th>
+              <th scope="col">Both followers frozen</th>
+              <th scope="col">One follower frozen</th>
+              <th scope="col">One follower cut off</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><span class="client">franz-go v1.22.2</span><span class="setting">its defaults</span></th>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">sarama v1.61.1</span><span class="setting">idempotent</span></th>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">sarama v1.61.1</span><span class="setting">its defaults</span></th>
+              <td><span class="chip lost">Lost acknowledged <b>5/5</b></span></td>
+              <td><span class="chip lost">Lost acknowledged <b>1/3</b></span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">kafka-go v0.4.51</span><span class="setting">acks <code>all</code></span></th>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="chip twice">Stored a batch again <b>3/3</b></span></td>
+              <td><span class="chip twice">Stored a batch again <b>3/3</b></span></td>
+              <td><span class="chip twice">Stored a batch again <b>3/3</b></span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">kafka-go v0.4.51</span><span class="setting">its default, acks <code>none</code></span></th>
+              <td><span class="chip lost">Sent, never stored <b>3/3</b></span></td>
+              <td><span class="chip lost">Sent, never stored <b>3/3</b></span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">confluent-kafka-go v2.16.0</span><span class="setting">idempotent</span></th>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="client">confluent-kafka-go v2.16.0</span><span class="setting">its defaults</span></th>
+              <td><span class="chip twice">Stored a batch twice <b>1/3</b></span></td>
+              <td><span class="chip twice">Stored a batch twice <b>2/3</b></span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="clean">clean</span></td>
+              <td><span class="chip twice">Stored a message twice <b>3/3</b></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="notes">
+        <div class="note">
+          <h3>franz-go</h3>
+          <p>Its defaults are already its strongest settings. Clean through every fault, and no send failed in 27 runs.</p>
+        </div>
+        <div class="note">
+          <h3>sarama · kafka-go</h3>
+          <p>On their defaults, a leader crash loses writes the client reported as done. Both libraries document this.</p>
+        </div>
+        <div class="note">
+          <h3>confluent-kafka-go</h3>
+          <p>Its defaults wait for every copy but aren't idempotent, so a retry can store a message twice.</p>
+        </div>
+      </div>
+      <div class="panel-foot">
+        <span>Each cell is three runs, five for sarama's defaults in the first crash. Apache Kafka 4.3.1.</span>
+        <a class="inline-link" href="https://github.com/omkar619-dev/driftlab#findings-so-far" target="_blank" rel="noopener">Read the full write-up ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== numbers ===== -->
+  <section class="band tight" aria-label="driftlab in numbers">
+    <div class="stats">
+      <div class="stat">
+        <div class="num">10</div>
+        <div class="what">issues reported upstream</div>
+        <div class="where">nats.go, franz-go, sarama, kaf-relay, Blnk</div>
+      </div>
+      <div class="stat">
+        <div class="num ok">4</div>
+        <div class="what">fixed</div>
+        <div class="where">nats.go v1.55.0; Blnk main, not released yet</div>
+      </div>
+      <div class="stat">
+        <div class="num review">3</div>
+        <div class="what">fixes in review</div>
+        <div class="where">nats.go, franz-go, sarama</div>
+      </div>
+      <div class="stat">
+        <div class="num">7</div>
+        <div class="what">projects tested</div>
+        <div class="where">4 Kafka clients, nats.go, kaf-relay, Blnk</div>
+      </div>
+    </div>
+    <p class="checked">Statuses checked on GitHub on 7 November 2026.</p>
+  </section>
+
+  <!-- ===== findings ===== -->
+  <section class="band" id="findings" aria-labelledby="findings-title">
+    <div class="head">
+      <span class="label">Findings</span>
+      <h2 id="findings-title">What broke, and where it stands</h2>
+      <p class="lede">Every finding links to its report upstream, with the run that shows it.</p>
+    </div>
+
+    <div class="findings">
+      <article class="card wide">
+        <div class="card-head">
+          <h3>Blnk</h3>
+          <span class="ver">v0.15.7</span>
+          <span class="kind">ledger</span>
+        </div>
+        <div class="issues">
+          <div class="issue">
+            <p>Transfers answered <code>201 QUEUED</code> were lost if the API server stopped before its background save.</p>
+            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/418" target="_blank" rel="noopener">issue 418 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/425" target="_blank" rel="noopener">fix 425 ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>The worker built batches around transfers it had already applied, then tried each batch again.</p>
+            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/421" target="_blank" rel="noopener">issue 421 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/423" target="_blank" rel="noopener">fix 423, tested ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>Under load, balance updates deadlocked with transaction inserts in Postgres.</p>
+            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/422" target="_blank" rel="noopener">issue 422 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/424" target="_blank" rel="noopener">fix 424 ↗</a></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>nats.go</h3>
+          <span class="ver">v1.53.1, v1.54.0</span>
+          <span class="kind">NATS client</span>
+        </div>
+        <div class="issues">
+          <div class="issue">
+            <p>The <code>jetstream</code> ordered consumer used a 15-second heartbeat instead of 5, so it took 30 seconds to notice a silent line.</p>
+            <div class="meta"><span class="status fixed">Fixed in v1.55.0</span><a href="https://github.com/nats-io/nats.go/issues/2181" target="_blank" rel="noopener">issue 2181 ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>The push ordered consumer goes silent for up to about 14 seconds after reconnecting, with no error.</p>
+            <div class="meta"><span class="status review">Fix in review</span><a href="https://github.com/nats-io/nats.go/issues/2180" target="_blank" rel="noopener">issue 2180 ↗</a><a href="https://github.com/nats-io/nats.go/pull/2201" target="_blank" rel="noopener">fix 2201, checked ↗</a></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>sarama</h3>
+          <span class="ver">v1.61.1</span>
+          <span class="kind">Kafka client</span>
+        </div>
+        <div class="issues">
+          <div class="issue">
+            <p>The idempotent producer can wait out its whole 30-second read timeout on a frozen broker, after the partition already takes writes again.</p>
+            <div class="meta"><span class="status review">Fix in review</span><a href="https://github.com/IBM/sarama/issues/3843" target="_blank" rel="noopener">issue 3843 ↗</a><a href="https://github.com/IBM/sarama/pull/3849" target="_blank" rel="noopener">fix 3849 ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>With its default settings, a leader crash loses acknowledged messages. In three of five runs it lost everything written so far, 521 to 526 messages.</p>
+            <div class="meta"><span class="status doc">Documented</span><a href="https://github.com/omkar619-dev/driftlab#findings-so-far" target="_blank" rel="noopener">the runs ↗</a></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>franz-go</h3>
+          <span class="ver">v1.20.7, v1.22.2</span>
+          <span class="kind">Kafka client</span>
+        </div>
+        <div class="issues">
+          <div class="issue">
+            <p>A request whose context has ended keeps waiting while another request to the same broker dials, 10 seconds by default.</p>
+            <div class="meta"><span class="status review">Fix in review</span><a href="https://github.com/twmb/franz-go/issues/1505" target="_blank" rel="noopener">issue 1505 ↗</a><a href="https://github.com/twmb/franz-go/pull/1506" target="_blank" rel="noopener">fix 1506, checked ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>After a leader crash, the reader finds the new leader up to 5 seconds later than it could.</p>
+            <div class="meta"><span class="status reported">Reproduced</span><a href="https://github.com/twmb/franz-go/issues/1531" target="_blank" rel="noopener">issue 1531 ↗</a></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3>kaf-relay</h3>
+          <span class="ver">v2.1.0</span>
+          <span class="kind">Kafka relay</span>
+        </div>
+        <div class="issues">
+          <div class="issue">
+            <p>A restart while the copy can't commit leaves a duplicate in it, and the next restart skips a message, with no error.</p>
+            <div class="meta"><span class="status reported">Reported</span><a href="https://github.com/zerodha/kaf-relay/issues/49" target="_blank" rel="noopener">issue 49 ↗</a></div>
+          </div>
+          <div class="issue">
+            <p>A relay doesn't start while the copy has caught up, and it retries fetch errors with no backoff.</p>
+            <div class="meta"><span class="status reported">Reported</span><a href="https://github.com/zerodha/kaf-relay/issues/48" target="_blank" rel="noopener">issue 48 ↗</a></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== method ===== -->
+  <section class="band" id="method" aria-labelledby="method-title">
+    <div class="head">
+      <span class="label">Method</span>
+      <h2 id="method-title">Drive it, record it, check it</h2>
+      <p class="lede">The history is the interface between running a test and judging it. The checker never touches the network, so an old run can be judged again after a checker fix, without running anything.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="n">1 · Drive</span>
+        <h3>A real client, a real fault</h3>
+        <p>A driver runs one scenario against a real broker or service and injects the fault on cue: a leader crash, a frozen follower, a cut link, a stalled consumer.</p>
+      </div>
+      <div class="step">
+        <span class="n">2 · Record</span>
+        <h3>One line per operation</h3>
+        <p>Each send and its acknowledgement, each delivery, each fault and each error the client reported goes into the history as one JSON line, in the order it happened.</p>
+      </div>
+      <div class="step">
+        <span class="n">3 · Check</span>
+        <h3>Every acknowledged write</h3>
+        <p>The checker reads the history afterwards. Every acknowledged message must arrive once and in order, and the consumer must catch up on its own.</p>
+      </div>
+    </div>
+
+    <div class="example">
+      <div class="history">
+        <div class="pane-head"><span>history.jsonl</span><span>excerpt</span></div>
+<pre><span class="q">&#123;"type":</span><span class="s">"meta"</span><span class="q">,"client":</span><span class="s">"github.com/nats-io/nats.go@v1.53.1"</span><span class="q">,"api":</span><span class="s">"legacy"</span><span class="q">,"scenario":</span><span class="s">"slow-short"</span><span class="q">, …&#125;</span>
+<span class="q">&#123;"index":</span>0<span class="q">,"time_ns":</span>0<span class="q">,"process":</span><span class="s">"producer"</span><span class="q">,"type":</span><span class="s">"invoke"</span><span class="q">,"f":</span><span class="s">"publish"</span><span class="q">,"value":</span>1<span class="q">&#125;</span>
+<span class="q">&#123;"index":</span>1<span class="q">,"time_ns":</span>410000<span class="q">,"process":</span><span class="s">"producer"</span><span class="q">,"type":</span><span class="s">"ok"</span><span class="q">,"f":</span><span class="s">"publish"</span><span class="q">,"value":</span>1<span class="q">,"stream_seq":</span>1<span class="q">&#125;</span>
+<span class="q">&#123;"index":</span>2<span class="q">,"time_ns":</span>502000000<span class="q">,"process":</span><span class="s">"consumer"</span><span class="q">,"type":</span><span class="s">"ok"</span><span class="q">,"f":</span><span class="s">"deliver"</span><span class="q">,"value":</span>1<span class="q">,"stream_seq":</span>1<span class="q">&#125;</span>
+<span class="q">&#123;"index":</span>3<span class="q">,"time_ns":</span>502050000<span class="q">,"process":</span><span class="f">"nemesis"</span><span class="q">,"type":</span><span class="s">"invoke"</span><span class="q">,"f":</span><span class="f">"overflow"</span><span class="q">&#125;</span>
+<span class="q">&#123;"index":</span>4<span class="q">,"time_ns":</span>502100000<span class="q">,"process":</span><span class="f">"nemesis"</span><span class="q">,"type":</span><span class="s">"invoke"</span><span class="q">,"f":</span><span class="f">"stall"</span><span class="q">&#125;</span>
+<span class="q">&#123;"index":</span>5<span class="q">,"time_ns":</span>611000000<span class="q">,"process":</span><span class="s">"consumer"</span><span class="q">,"type":</span><span class="s">"info"</span><span class="q">,"f":</span><span class="s">"client-error"</span><span class="q">,"error":</span><span class="s">"nats: slow consumer, messages dropped"</span><span class="q">&#125;</span></pre>
+      </div>
+      <div class="verdict">
+        <div class="pane-head"><span>driftlab check</span><span>verdict</span></div>
+        <div class="verdict-body">
+          <div class="result">Failed: poll-skip</div>
+          <dl class="kv">
+            <dt>never delivered</dt><dd>values 21 to 100</dd>
+            <dt>caught up</dt><dd>never</dd>
+            <dt>run</dt><dd>nats.go v1.53.1, legacy API, slow-short, 6 Oct 2026</dd>
+          </dl>
+          <div class="after">The same scenario on v1.54.0, which has the fix: <strong>clean</strong>, caught up in 18 s.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="calibrated">
+      <h3>Calibrated first</h3>
+      <p>A checker has to catch a known bug before its clean results mean anything. The run above is that test for the NATS checks: nats.go <a class="inline-link" href="https://github.com/nats-io/nats.go/issues/2107" target="_blank" rel="noopener">issue 2107</a>, caught on v1.53.1 and clean on v1.54.0. The Kafka checks passed the same test on franz-go <a class="inline-link" href="https://github.com/twmb/franz-go/issues/1217" target="_blank" rel="noopener">issue 1217</a> and sarama <a class="inline-link" href="https://github.com/IBM/sarama/pull/3762" target="_blank" rel="noopener">pull request 3762</a>.</p>
+    </div>
+  </section>
+
+  <!-- ===== ledgers ===== -->
+  <section class="band" id="ledgers" aria-labelledby="ledgers-title">
+    <div class="head">
+      <span class="label">Ledgers</span>
+      <h2 id="ledgers-title">A ledger that answered before it saved, fixed in 4 days</h2>
+      <p class="lede">Blnk is an open-source double-entry ledger. In v0.15.7 its API replied <code>201 QUEUED</code> as soon as a transfer was handed to a background save, so a server that stopped in between lost transfers it had already answered for. driftlab reported that and two smaller bugs on 2 November. Blnk fixed all three by 5 November, and on 6 November the same runs against its main branch lost nothing.</p>
+    </div>
+
+    <div class="ledger-grid">
+      <div class="box">
+        <p class="box-title">One stop, five seconds in</p>
+        <div class="bignum">6,011</div>
+        <p class="bignum-cap">transfers answered <code>201 QUEUED</code> and never saved, after <code>docker stop</code> five seconds into a full-speed run on v0.15.7.</p>
+        <div class="after-fix"><span class="to">0</span><span>on Blnk's main, which saves each transfer before it answers. Same stop, same kill, same frozen Postgres.</span></div>
+        <p class="bignum-note">Balances matched in every run, and no transfer was applied twice. The damage was to completeness: the caller held a 201 and a transaction ID that the ledger had no record of.</p>
+      </div>
+      <div class="box">
+        <p class="box-title">How far the saves fell behind the answers, no fault</p>
+        <svg class="chart" viewBox="0 0 560 238" role="img" aria-label="Transfers answered but not yet saved, by send rate, on v0.15.7: kept up at 100 a second, 1,498 behind at 200, 2,957 at 400, 12,601 at 800. On Blnk's main at 800 a second: none.">
+          <text class="muted" x="0" y="14">v0.15.7</text>
+          <text class="muted" x="96" y="14">answered but not yet saved, at the worst moment</text>
+          <!-- scale: 12,601 = 380px, bars start at x = 96 -->
+          <text class="axis-label" x="0" y="52">100 / s</text>
+          <rect class="track" x="96" y="38" width="380" height="20" rx="3"/>
+          <text class="val keptup" x="104" y="53">kept up</text>
+          <text class="axis-label" x="0" y="94">200 / s</text>
+          <rect class="track" x="96" y="80" width="380" height="20" rx="3"/>
+          <rect class="bar-soft" x="96" y="80" width="45.2" height="20" rx="3"/>
+          <text class="val" x="149" y="95">1,498</text>
+          <text class="axis-label" x="0" y="136">400 / s</text>
+          <rect class="track" x="96" y="122" width="380" height="20" rx="3"/>
+          <rect class="bar-soft" x="96" y="122" width="89.2" height="20" rx="3"/>
+          <text class="val" x="193" y="137">2,957</text>
+          <text class="axis-label" x="0" y="178">800 / s</text>
+          <rect class="track" x="96" y="164" width="380" height="20" rx="3"/>
+          <rect class="bar" x="96" y="164" width="380" height="20" rx="3"/>
+          <text class="val" x="484" y="179">12,601</text>
+          <line class="divider" x1="0" y1="198" x2="560" y2="198"/>
+          <text class="axis-label" x="0" y="226">main 800</text>
+          <rect class="track" x="96" y="212" width="380" height="20" rx="3"/>
+          <text class="val keptup" x="104" y="227">0, it saves before it answers</text>
+        </svg>
+        <p class="chart-note">On v0.15.7 every one of those answers still came back in 1 to 2 ms, and a crash at that moment lost the whole gap. On main an answer waits for its save: 10 ms at the median, 31 ms at the 99th percentile.</p>
+      </div>
+    </div>
+
+    <div class="box runs">
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Fault</th>
+              <th scope="col" class="n">v0.15.7: never saved, of answered</th>
+              <th scope="col" class="n">Blnk main: never saved, of answered</th>
+              <th scope="col">Balances</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>docker stop</code> at 5 s, full speed</td><td class="n lostn">6,011 of 10,227</td><td class="n okn">0 of 5,927</td><td class="okk">all matched</td></tr>
+            <tr><td>Postgres frozen from 4 to 7 s, stop at 6 s</td><td class="n lostn">5,307 of 9,237</td><td class="n okn">0 of 4,176</td><td class="okk">all matched</td></tr>
+            <tr><td><code>docker kill</code> at 5 s, full speed</td><td class="n lostn">2,267 of 7,974</td><td class="n okn">0 of 4,821</td><td class="okk">all matched</td></tr>
+            <tr><td>kill at 10 s, 400 a second</td><td class="n lostn">851 of 7,126</td><td class="dim">not rerun</td><td class="okk">all matched</td></tr>
+            <tr><td>kill at 10 s, 100 a second</td><td class="n lostn">246 of 1,772</td><td class="dim">not rerun</td><td class="okk">all matched</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="runs-note">The stop run proves the least: the test setup starts Blnk under <code>/bin/sh</code>, so <code>docker stop</code> only killed it after sending had ended. The kill and frozen-Postgres runs are the evidence.</p>
+    </div>
+
+    <div class="fixes" role="group" aria-label="Before and after the three fixes">
+      <div class="fixes-head"><span class="status fixed">Fixed in main</span><span>v0.15.7 → Blnk main, rerun 6 November</span></div>
+      <div class="fix">
+        <p class="what">Answered and never saved, after a <code>docker kill</code></p>
+        <div class="delta" aria-label="2,267 before, 0 after"><span class="from">2,267</span><span class="arrow">→</span><span class="to">0</span></div>
+        <p class="ref"><a href="https://github.com/blnkfinance/blnk/issues/418" target="_blank" rel="noopener">issue 418</a> · fixed by <a href="https://github.com/blnkfinance/blnk/pull/425" target="_blank" rel="noopener">pull request 425</a></p>
+      </div>
+      <div class="fix">
+        <p class="what">Worker still busy after the last save, at 800 a second</p>
+        <div class="delta" aria-label="116 seconds before, 2.5 seconds after"><span class="from">116 s</span><span class="arrow">→</span><span class="to">2.5 s</span></div>
+        <p class="ref"><a href="https://github.com/blnkfinance/blnk/issues/421" target="_blank" rel="noopener">issue 421</a> · fixed by <a href="https://github.com/blnkfinance/blnk/pull/423" target="_blank" rel="noopener">pull request 423</a>, tested here first</p>
+      </div>
+      <div class="fix">
+        <p class="what">Postgres deadlocks, at 800 a second</p>
+        <div class="delta" aria-label="43 before, 0 after"><span class="from">43</span><span class="arrow">→</span><span class="to">0</span></div>
+        <p class="ref"><a href="https://github.com/blnkfinance/blnk/issues/422" target="_blank" rel="noopener">issue 422</a> · fixed by <a href="https://github.com/blnkfinance/blnk/pull/424" target="_blank" rel="noopener">pull request 424</a></p>
+      </div>
+    </div>
+    <p class="reported-line">Reported 2 November 2026. Fixed in Blnk's main by 5 November, not in a release yet. <a href="https://github.com/omkar619-dev/driftlab/blob/main/DESIGN.md#blnk-results" target="_blank" rel="noopener">Every number ↗</a></p>
+  </section>
+
+  <!-- ===== next ===== -->
+  <section class="band" aria-labelledby="next-title">
+    <div class="next">
+      <div>
+        <span class="label">Next</span>
+        <h2 id="next-title">Where it's going</h2>
+      </div>
+      <div>
+        <p>Today driftlab injects real faults into real processes, so a rare failure can take many runs to show up, and a timing bug may not repeat. The aim is deterministic testing: one seed replays the same schedule and the same faults every time, so a failure found once can be replayed until it's fixed.</p>
+        <ul class="todo">
+          <li><span class="when">Now</span><span>Any language: the runner and the checks split from the Go drivers, starting with the Java and Python Kafka clients, through the same five faults.</span></li>
+          <li><span class="when">Next</span><span>A second Kafka calibration: driftlab has to catch a known franz&#8209;go message-loss bug on the version before its fix.</span></li>
+          <li><span class="when">Then</span><span>Ledger checks you can reuse: every confirmed transfer applied exactly once, money conserved, a retry never applied twice. Blnk first.</span></li>
+          <li><span class="when">Later</span><span>Deterministic runs, where one seed replays the whole schedule.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== contact ===== -->
+  <section class="band tight" aria-label="Contact">
+    <div class="contact">
+      <span>Want your system tested?</span>
+      <span class="mail"><span id="mail-addr">omkarshendge619@gmail.com</span><button class="copy" type="button" id="copy-mail" data-copy="mail-addr" aria-label="Copy the email address">Copy</button></span>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <span>driftlab · Apache-2.0 · built by Omkar Shendge</span>
+    <nav aria-label="Elsewhere">
+      <a href="https://github.com/omkar619-dev/driftlab" target="_blank" rel="noopener">GitHub ↗</a>
+      <a href="https://x.com/zeekgchuinfdn" target="_blank" rel="noopener">X ↗</a>
+      <a href="https://omkar-blog.pages.dev" target="_blank" rel="noopener">Blog ↗</a>
+    </nav>
+  </div>
+</footer>
+
+<script is:inline>
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var target = document.getElementById(button.dataset.copy);
+      var text = target.textContent.trim();
+      function show(word) {
+        button.textContent = word;
+        setTimeout(function () { button.textContent = "Copy"; }, 1600);
+      }
+      function selectInstead() {
+        var range = document.createRange();
+        range.selectNodeContents(target);
+        var selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        show("Selected");
+      }
+      try {
+        navigator.clipboard.writeText(text).then(function () { show("Copied"); }, selectInstead);
+      } catch (error) {
+        selectInstead();
+      }
+    });
+  });
+</script>
+</body>
 </html>
