@@ -167,14 +167,14 @@ import '../styles/site.css';
         <div class="where">nats.go, franz-go, sarama, kaf-relay, Blnk</div>
       </div>
       <div class="stat">
-        <div class="num ok">4</div>
+        <div class="num ok">6</div>
         <div class="what">fixed</div>
-        <div class="where">nats.go v1.55.0; Blnk main, not released yet</div>
+        <div class="where">nats.go v1.55.0; franz-go and Blnk, not released yet</div>
       </div>
       <div class="stat">
-        <div class="num review">3</div>
+        <div class="num review">2</div>
         <div class="what">fixes in review</div>
-        <div class="where">nats.go, franz-go, sarama</div>
+        <div class="where">nats.go, sarama</div>
       </div>
       <div class="stat">
         <div class="num">7</div>
@@ -182,7 +182,7 @@ import '../styles/site.css';
         <div class="where">4 Kafka clients, nats.go, kaf-relay, Blnk</div>
       </div>
     </div>
-    <p class="checked">Statuses checked on GitHub on 7 November 2026.</p>
+    <p class="checked">Statuses checked on GitHub on 9 November 2026.</p>
   </section>
 
   <!-- ===== findings ===== -->
@@ -260,12 +260,12 @@ import '../styles/site.css';
         </div>
         <div class="issues">
           <div class="issue">
-            <p>A request whose context has ended keeps waiting while another request to the same broker dials, 10 seconds by default.</p>
-            <div class="meta"><span class="status review">Fix in review</span><a href="https://github.com/twmb/franz-go/issues/1505" target="_blank" rel="noopener">issue 1505 ↗</a><a href="https://github.com/twmb/franz-go/pull/1506" target="_blank" rel="noopener">fix 1506, checked ↗</a></div>
+            <p>A request whose context had ended kept waiting while another request to the same broker dialed, 10 seconds by default.</p>
+            <div class="meta"><span class="status fixed">Fixed in master</span><a href="https://github.com/twmb/franz-go/issues/1505" target="_blank" rel="noopener">issue 1505 ↗</a><a href="https://github.com/twmb/franz-go/pull/1506" target="_blank" rel="noopener">fix 1506, checked ↗</a></div>
           </div>
           <div class="issue">
-            <p>After a leader crash, the reader finds the new leader up to 5 seconds later than it could.</p>
-            <div class="meta"><span class="status reported">Reproduced</span><a href="https://github.com/twmb/franz-go/issues/1531" target="_blank" rel="noopener">issue 1531 ↗</a></div>
+            <p>After a leader crash, the reader found the new leader up to 5 seconds later than it could.</p>
+            <div class="meta"><span class="status fixed">Fixed in master</span><a href="https://github.com/twmb/franz-go/issues/1531" target="_blank" rel="noopener">issue 1531 ↗</a><a href="https://github.com/twmb/franz-go/pull/1537" target="_blank" rel="noopener">fix 1537 ↗</a></div>
           </div>
         </div>
       </article>
