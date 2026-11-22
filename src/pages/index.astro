@@ -167,14 +167,14 @@ import '../styles/site.css';
         <div class="where">nats.go, franz-go, sarama, kaf-relay, Blnk</div>
       </div>
       <div class="stat">
-        <div class="num ok">6</div>
+        <div class="num ok">7</div>
         <div class="what">fixed</div>
-        <div class="where">nats.go v1.55.0; franz-go and Blnk, not released yet</div>
+        <div class="where">all released: nats.go, franz-go, sarama, Blnk</div>
       </div>
       <div class="stat">
-        <div class="num review">2</div>
-        <div class="what">fixes in review</div>
-        <div class="where">nats.go, sarama</div>
+        <div class="num review">1</div>
+        <div class="what">fix in review</div>
+        <div class="where">nats.go</div>
       </div>
       <div class="stat">
         <div class="num">7</div>
@@ -182,7 +182,7 @@ import '../styles/site.css';
         <div class="where">4 Kafka clients, nats.go, kaf-relay, Blnk</div>
       </div>
     </div>
-    <p class="checked">Statuses checked on GitHub on 9 November 2026.</p>
+    <p class="checked">Statuses checked on GitHub on 22 November 2026.</p>
   </section>
 
   <!-- ===== findings ===== -->
@@ -203,15 +203,15 @@ import '../styles/site.css';
         <div class="issues">
           <div class="issue">
             <p>Transfers answered <code>201 QUEUED</code> were lost if the API server stopped before its background save.</p>
-            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/418" target="_blank" rel="noopener">issue 418 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/425" target="_blank" rel="noopener">fix 425 ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v0.15.9</span><a href="https://github.com/blnkfinance/blnk/issues/418" target="_blank" rel="noopener">issue 418 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/425" target="_blank" rel="noopener">fix 425 ↗</a></div>
           </div>
           <div class="issue">
             <p>The worker built batches around transfers it had already applied, then tried each batch again.</p>
-            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/421" target="_blank" rel="noopener">issue 421 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/423" target="_blank" rel="noopener">fix 423, tested ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v0.15.9</span><a href="https://github.com/blnkfinance/blnk/issues/421" target="_blank" rel="noopener">issue 421 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/423" target="_blank" rel="noopener">fix 423, tested ↗</a></div>
           </div>
           <div class="issue">
             <p>Under load, balance updates deadlocked with transaction inserts in Postgres.</p>
-            <div class="meta"><span class="status fixed">Fixed in main</span><a href="https://github.com/blnkfinance/blnk/issues/422" target="_blank" rel="noopener">issue 422 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/424" target="_blank" rel="noopener">fix 424 ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v0.15.9</span><a href="https://github.com/blnkfinance/blnk/issues/422" target="_blank" rel="noopener">issue 422 ↗</a><a href="https://github.com/blnkfinance/blnk/pull/424" target="_blank" rel="noopener">fix 424 ↗</a></div>
           </div>
         </div>
       </article>
@@ -243,7 +243,7 @@ import '../styles/site.css';
         <div class="issues">
           <div class="issue">
             <p>The idempotent producer can wait out its whole 30-second read timeout on a frozen broker, after the partition already takes writes again.</p>
-            <div class="meta"><span class="status review">Fix in review</span><a href="https://github.com/IBM/sarama/issues/3843" target="_blank" rel="noopener">issue 3843 ↗</a><a href="https://github.com/IBM/sarama/pull/3849" target="_blank" rel="noopener">fix 3849 ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v1.62.0</span><a href="https://github.com/IBM/sarama/issues/3843" target="_blank" rel="noopener">issue 3843 ↗</a><a href="https://github.com/IBM/sarama/pull/3849" target="_blank" rel="noopener">fix 3849 ↗</a></div>
           </div>
           <div class="issue">
             <p>With its default settings, a leader crash loses acknowledged messages. In three of five runs it lost everything written so far, 521 to 526 messages.</p>
@@ -261,11 +261,11 @@ import '../styles/site.css';
         <div class="issues">
           <div class="issue">
             <p>A request whose context had ended kept waiting while another request to the same broker dialed, 10 seconds by default.</p>
-            <div class="meta"><span class="status fixed">Fixed in master</span><a href="https://github.com/twmb/franz-go/issues/1505" target="_blank" rel="noopener">issue 1505 ↗</a><a href="https://github.com/twmb/franz-go/pull/1506" target="_blank" rel="noopener">fix 1506, checked ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v1.22.3</span><a href="https://github.com/twmb/franz-go/issues/1505" target="_blank" rel="noopener">issue 1505 ↗</a><a href="https://github.com/twmb/franz-go/pull/1506" target="_blank" rel="noopener">fix 1506, checked ↗</a></div>
           </div>
           <div class="issue">
             <p>After a leader crash, the reader found the new leader up to 5 seconds later than it could.</p>
-            <div class="meta"><span class="status fixed">Fixed in master</span><a href="https://github.com/twmb/franz-go/issues/1531" target="_blank" rel="noopener">issue 1531 ↗</a><a href="https://github.com/twmb/franz-go/pull/1537" target="_blank" rel="noopener">fix 1537 ↗</a></div>
+            <div class="meta"><span class="status fixed">Fixed in v1.22.3</span><a href="https://github.com/twmb/franz-go/issues/1531" target="_blank" rel="noopener">issue 1531 ↗</a><a href="https://github.com/twmb/franz-go/pull/1537" target="_blank" rel="noopener">fix 1537 ↗</a></div>
           </div>
         </div>
       </article>
@@ -417,7 +417,7 @@ import '../styles/site.css';
     </div>
 
     <div class="fixes" role="group" aria-label="Before and after the three fixes">
-      <div class="fixes-head"><span class="status fixed">Fixed in main</span><span>v0.15.7 → Blnk main, rerun 6 November</span></div>
+      <div class="fixes-head"><span class="status fixed">Fixed in v0.15.9</span><span>v0.15.7 → Blnk main, rerun 6 November</span></div>
       <div class="fix">
         <p class="what">Answered and never saved, after a <code>docker kill</code></p>
         <div class="delta" aria-label="2,267 before, 0 after"><span class="from">2,267</span><span class="arrow">→</span><span class="to">0</span></div>
@@ -434,7 +434,7 @@ import '../styles/site.css';
         <p class="ref"><a href="https://github.com/blnkfinance/blnk/issues/422" target="_blank" rel="noopener">issue 422</a> · fixed by <a href="https://github.com/blnkfinance/blnk/pull/424" target="_blank" rel="noopener">pull request 424</a></p>
       </div>
     </div>
-    <p class="reported-line">Reported 2 November 2026. Fixed in Blnk's main by 5 November, not in a release yet. <a href="https://github.com/omkar619-dev/driftlab/blob/main/DESIGN.md#blnk-results" target="_blank" rel="noopener">Every number ↗</a></p>
+    <p class="reported-line">Reported 2 November 2026. Fixed in Blnk's main by 5 November, and released in v0.15.9 on 16 November. <a href="https://github.com/omkar619-dev/driftlab/blob/main/DESIGN.md#blnk-results" target="_blank" rel="noopener">Every number ↗</a></p>
   </section>
 
   <!-- ===== next ===== -->
@@ -448,7 +448,7 @@ import '../styles/site.css';
         <p>Today driftlab injects real faults into real processes, so a rare failure can take many runs to show up, and a timing bug may not repeat. The aim is deterministic testing: one seed replays the same schedule and the same faults every time, so a failure found once can be replayed until it's fixed.</p>
         <ul class="todo">
           <li><span class="when">Now</span><span>Any language: the runner and the checks split from the Go drivers, starting with the Java and Python Kafka clients, through the same five faults.</span></li>
-          <li><span class="when">Next</span><span>A second Kafka calibration: driftlab has to catch a known franz&#8209;go message-loss bug on the version before its fix.</span></li>
+          <li><span class="when">Next</span><span>Another Kafka calibration: driftlab has to catch a second known franz&#8209;go message-loss bug, on the version before its fix.</span></li>
           <li><span class="when">Then</span><span>Ledger checks you can reuse: every confirmed transfer applied exactly once, money conserved, a retry never applied twice. Blnk first.</span></li>
           <li><span class="when">After that</span><span>RabbitMQ: amqp091&#8209;go's automatic recovery, added in 2026, which reconnects and sets its consumers up again when the connection drops.</span></li>
           <li><span class="when">Later</span><span>Deterministic runs, where one seed replays the whole schedule.</span></li>
